@@ -22,18 +22,64 @@
                         <input type="text" class="form-control" id="searchCity" aria-label="City Search" aria-describedby="searchButton">
                         <div class="input-group-append">
                             <!--using group append to attach the user input field and the button-->
-                            <button class="searchBtn bg-primary text-light" id="searchButton"></div><i class="fa-solid fa-magnifying-glass-location"></i></button>
-
+                            <button class="btn bg-primary text-light" id="searchButton"><i class="fa-solid fa-magnifying-glass-location"></i></button>
                         </div>
-
-
                     </div>
+                    <!--section where localStorage will display the user's search history as well as delete it-->
+                    <button class="btn btn-primary" type="button" id="clearHistory">Clear History</button>
+                    <ul class="listGroup"> <!--placing the cities from local storage in a list-->
 
+                    </ul>
                 </div>
-
+                <div class="col-sm-8">
+                    <!--applying a default dark border with rounded corners to the box that will display the city's weather-->
+                    <div class="row ml-2 border border-dark rounded">
+                        <div class="col-sm-12" id="currentWeather">
+                            <h3 class="cityName mb-1 mt-2 bolder" id="currentCity"></h3>
+                            <p>Temperature: <span class="current" id="temperature"></span></p>
+                            <p>Humidity: <span class="current" id="humidity"></span></p>
+                            <p>Wind Speed: <span class="current" id="windSpeed"></span></p>
+                        </div>
+                    </div>
+                    <!--next five days to be stored in these divs-->
+                    <div class="col-sm-12" id="fiveForecast">
+                        <h3>Five Day Forecast</h3>
+                        <div class="row text-light">
+                            <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded">
+                                <p id="forecastDate0"></p>
+                                <p id="forecastIcon0"></p>
+                                <p>Temperature: <span id="tempForecast0"></span></p>
+                                <p>Humidity: <span id="humidityForecast0"></span></p>
+                            </div>
+                            <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded">
+                                <p id="forecastDate1"></p>
+                                <p id="forecastIcon1"></p>
+                                <p>Temperature: <span id="tempForecast1"></span></p>
+                                <p>Humidity: <span id="humidityForecast1"></span></p>
+                            </div>
+                            <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded">
+                                <p id="forecastDate2"></p>
+                                <p id="forecastIcon2"></p>
+                                <p>Temperature: <span id="tempForecast2"></span></p>
+                                <p>Humidity: <span id="humidityForecast2"></span></p>
+                            </div>
+                            <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded">
+                                <p id="forecastDate3"></p>
+                                <p id="forecastIcon3"></p>
+                                <p>Temperature: <span id="tempForecast3"></span></p>
+                                <p>Humidity: <span id="humidityForecast3"></span></p>
+                            </div>
+                            <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded">
+                                <p id="forecastDate4"></p>
+                                <p id="forecastIcon4"></p>
+                                <p>Temperature: <span id="tempForecast4"></span></p>
+                                <p>Humidity: <span id="humidityForecast4"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-        </div>
+         </div>
     </body>
     <!--font awesome-->
     <script src="https://kit.fontawesome.com/0f825649d3.js" crossorigin="anonymous"></script>
