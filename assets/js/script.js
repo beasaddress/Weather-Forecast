@@ -31,6 +31,42 @@ function displayWeather(event){
     if(searchedCity.val().trim()!==""){
         city=searchedCity.val().trim();//using val() to retrive the "value" or what was inside the user input field.using trim() to get rid
         //of "whitespace" like tabs, line breaks, or spaces or something from the user
-        currentWeather(city); //npw calling the function that grab the current weather from the api using the user input, we'll call it currentWeather
+        currentWeather(cityName); //now calling the function that grab the current weather from the api using the user input, we'll call it currentWeather
     }
+}
+function currentWeather(cityName){
+    //url taken from openweatherapp. seeing a lot of differing resources on how to properly format this url so im going to try this for now...
+    const apiUrl = "api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}" + cityName + "&appid=" + APIKey;
+    //making the call to jquery
+    $.ajax({
+        url:apiUrl,
+        method: "GET"
+    }).then(function(response){
+        //now to parse the response so that we only city name, date, and the corresponding icon
+        console.log(response);
+        const weatherIcon = response.weather[0].icon;
+        const iconUrl = "https://openweathermap.org/img/wn/" + weatherIcon + "10d@2x.png";
+        //using the date format from mozilla docs
+        const date = new Date(8.64e15).toString();  
+        //parsing for date, icon, and city
+        $(currentCity).html(response.name + "("+date+")" + "<img src="+iconUrl+">");
+
+        //assuming i'll need to convert to farenheit since OpenWeatherMap has everything in celciuis on their site..
+        const fahrenheit = (response.main.temp - 273.15) * 1.80 + 32;
+        $(currentTemperature).html((fahrenheit).toFixed(2) + "&#8457");
+        //using jquery to select the currentTemp element from the HTML, using the toFixed method
+        //to convert const fahrenehit to a string value with 2 decimal places.
+        //also using the HTML entity code for Fahrenheit symbol for UX.
+        $(currentHumidity).html(response.main.humidity+"%");
+        //setting up to convert windspeed to MPH
+        const wspeed = response.wind.speed;
+        //using toFixed here as well tp keep the decimal to just one
+        const windMPH = (wspeed*2.237).toFixed(1);
+        $(currentWindSpeed).html(windMPH + "MPH");
+
+    })
+}
+
+function forecast (cityid){
+    
 }
