@@ -37,6 +37,7 @@ function displayWeather(event){
     }
 }
 function currentWeather(cityName){
+    const exist = false;
     //was using the wrong URL before, changed it  seeing a lot of differing resources on how to properly format this url so im going to try this for now...
     const apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&APPID=" + APIKey;
     //making the call to jquery
@@ -75,18 +76,18 @@ function currentWeather(cityName){
             searchedCities=JSON.parse(localStorage.getItem("cityname"));
             console.log(searchedCities);
             if(searchedCities==null){
-                //checking to see if searchedCities array is null(doesnt have that specific cityname in it) if it is, the cityname will be pushed into the local storage/added to the list
+                //checking to see if searchedCities array is null(doesnt have that specific cityname in it) if it is, the cityname will be pushed into the local storage/added to the list in addToList function
                 searchedCities=[];
                 searchedCities.push(cityName.toUpperCase());
-                localStorage.setItem("cityname",JSON.stringify(searchedCities));
+                localStorage.setItem(cityName,JSON.stringify(searchedCities));
                 addToList(cityName);
             }
             else {
                 //else statement so that if the cityName is already in the array, it wont be added again
-                if(find(cityName) === -1){
+                if(find(cityName) >0){
                     searchedCities.push(cityName.toUpperCase());
                     localStorage.setItem("cityname",JSON.stringify(searchedCities));
-                    addToList(cityName);                
+                    //addToList(cityName);                
                 }
             }
         }
@@ -95,6 +96,7 @@ function currentWeather(cityName){
 }
 //this function will be retrieving and displaying forecast info for the specified city
 function forecast (lon, lat){
+    
     const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APIKey}`;
     //let lat = response.coord.lat;
     //let lon = response.coord.lon;
@@ -133,11 +135,14 @@ function forecast (lon, lat){
 //bar by taking "c" from local storage and placing inside the html elements
 function addToList(c){
     //creating a new list item using jquery
-    const listItem = $("<li"+c.toUpperCase()+"</li>");
-    $(listItem).attr("class", "listGroup");
+    const listItem = $("<li" + c.toUpperCase() + "</li>");
+    //making a new class for the list item to be placed within the .listGroup class
+   // $(listItem).attr("class", "searchHistoryBoxes");
     //using data-value attribute to store the listItem as its uppcerase form inside the listGroup element
-    $(listItem).attr("data-value",c.toUpperCase());
-    $(".list-group").append(listItem);
+    $(listItem).attr("data-value", c.toUpperCase());
+    $(".searchHistoryBoxes").append(listItem);
+    console.log(listItem);
+    
 }
 
 //adding click handlers to see if application will work in browser
