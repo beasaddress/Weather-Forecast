@@ -115,7 +115,6 @@ function forecast (lon, lat){
            const celcius = response.list[((i+1)*8)-1].main.temp;
            const fahrenheit = (((celcius-273.5)*1.80)+32).toFixed(2);
            const humidity = response.list[((i+1)*8)-1].main.humidity;
-           //come back to convert this to MPH
            const windSpeed = response.list[((i+1)*8)-1].wind.speed;
            const windMPH = (windSpeed*2.237).toFixed(1);
 
@@ -128,6 +127,17 @@ function forecast (lon, lat){
 
         }
     });
+}
+
+//adding a function that will add the searched cities to the list underneath the search 
+//bar by taking "c" from local storage and placing inside the html elements
+function addToList(c){
+    //creating a new list item using jquery
+    const listItem = $("<li"+c.toUpperCase()+"</li>");
+    $(listItem).attr("class", "listGroup");
+    //using data-value attribute to store the listItem as its uppcerase form inside the listGroup element
+    $(listItem).attr("data-value",c.toUpperCase());
+    $(".list-group").append(listItem);
 }
 
 //adding click handlers to see if application will work in browser
