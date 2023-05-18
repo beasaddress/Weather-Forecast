@@ -135,7 +135,7 @@ function forecast (lon, lat){
 //bar by taking "c" from local storage and placing inside the html elements
 function addToList(c){
     //creating a new list item using jquery
-    const listItem = $("<li" + c.toUpperCase() + "</li>");
+    const listItem = $("<li>" + c.toUpperCase() + "</li>");
     //making a new class for the list item to be placed within the .listGroup class
    // $(listItem).attr("class", "searchHistoryBoxes");
     //using data-value attribute to store the listItem as its uppcerase form inside the listGroup element
