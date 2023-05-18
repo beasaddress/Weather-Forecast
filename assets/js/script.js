@@ -35,8 +35,8 @@ function displayWeather(event){
     }
 }
 function currentWeather(cityName){
-    //url taken from openweatherapp. seeing a lot of differing resources on how to properly format this url so im going to try this for now...
-    const apiUrl = "api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}" + cityName + "&appid=" + APIKey;
+    //was using the wrong URL before, changed it  seeing a lot of differing resources on how to properly format this url so im going to try this for now...
+    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}" + cityName + "&appid=" + APIKey;
     //making the call to jquery
     $.ajax({
         url:apiUrl,
@@ -63,10 +63,39 @@ function currentWeather(cityName){
         //using toFixed here as well tp keep the decimal to just one
         const windMPH = (wspeed*2.237).toFixed(1);
         $(currentWindSpeed).html(windMPH + "MPH");
+        //calling the forecast function and passing the city id obtained from the response
+        
+        forecast(response.id);
+        if(response.cod===200){//checking to see if the API request was successful ,it status code is 200, code block will execute
+            //assigning the searched city to "cityname" in the browers local sotrage
+            searchedCities=JSON.parse(localStorage.getItem("cityname"));
+            console.log(searchedCities);
+            if(searchedCities==null){
+                //checking to see if searchedCities array is null(doesnt have that specific cityname in it) if it is, the cityname will be pushed into the local storage/added to the list
+                searchedCities=[];
+                searchedCities.push(cityName.toUpperCase());
+                localStorage.setItem("cityname",JSON.stringify(searchedCities));
+                addToList(cityName);
+            }
+            else {
+                //else statement so that if the cityName is already in the array, it wont be added again
+                if(find(cityName) === -1){
+                    searchedCities.push(cityName.toUpperCase());
+                    localStorage.setItem("cityname",JSON.stringify(searchedCities));
+                    addToList(cityName);                
+                }
+            }
+        }
+
+    });
+}
+//this function will be retrieving and displaying forecast info for the specified city
+function forecast (cityid){
+    const forecastURL = "api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}";
+    $.ajax({
+        url:forecastURL,
+        method:"GET"
+    }).then(function(response){
 
     })
-}
-
-function forecast (cityid){
-    
 }
