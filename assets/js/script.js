@@ -113,9 +113,20 @@ function forecast (lon, lat){
             //the URL of the icon image is constructed by combining the code that fetches it from the response with the url
            const iconURL = "https://openweathermap.org/img/wn/" + iconCode + "10d@2x.png";
            const celcius = response.list[((i+1)*8)-1].main.temp;
+           const fahrenheit = (((celcius-273.5)*1.80)+32).toFixed(2);
+           const humidity = response.list[((i+1)*8)-1].main.humidity;
+           //come back to convert this to MPH
+           const windSpeed = response.list[((i+1)*8)-1].main.wind;
+
+           //placing them inside elements
+           $("#forecastDate"+i).html(date);
+           $("#forecastIcon"+i).html("img src="+iconURL+">");
+           $("#tempForecast"+i).html(fahrenheit+"&#8457");
+           $("#humidityForecast"+i).html(humidity+"%");
+           $("#windForecast"+i).html(windSpeed+"MPH");
 
         }
-    })
+    });
 }
 
 //adding click handlers to see if application will work in browser
