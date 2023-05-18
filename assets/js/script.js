@@ -31,7 +31,7 @@ const longitude = -122.4194;
 function displayWeather(event){
     event.preventDefault();//using preventDefault to stop the browser from displaying the wrong forecast from previous entries
     if(searchedCity.val().trim()!==""){
-        city=searchedCity.val().trim();//using val() to retrive the "value" or what was inside the user input field.using trim() to get rid
+        cityName=searchedCity.val().trim();//using val() to retrive the "value" or what was inside the user input field.using trim() to get rid
         //of "whitespace" like tabs, line breaks, or spaces or something from the user
         currentWeather(cityName); //now calling the function that grab the current weather from the api using the user input, we'll call it currentWeather
     }
@@ -40,6 +40,7 @@ function currentWeather(cityName){
     //was using the wrong URL before, changed it  seeing a lot of differing resources on how to properly format this url so im going to try this for now...
     const apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&APPID=" + APIKey;
     //making the call to jquery
+
     $.ajax({
         url:apiUrl,
         method: "GET"
@@ -67,7 +68,8 @@ function currentWeather(cityName){
         $(currentWindSpeed).html(windMPH + "MPH");
         //calling the forecast function and passing the city id obtained from the response
         
-        forecast(response.id);
+        forecast(response.coord.lon, response.coord.lat);
+        
         if(response.cod===200){//checking to see if the API request was successful ,it status code is 200, code block will execute
             //assigning the searched city to "cityname" in the browers local sotrage
             searchedCities=JSON.parse(localStorage.getItem("cityname"));
@@ -92,12 +94,15 @@ function currentWeather(cityName){
     });
 }
 //this function will be retrieving and displaying forecast info for the specified city
-function forecast (cityName){
-    const forecastURL = "api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}";
+function forecast (lon, lat){
+    const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APIKey}`;
+    //let lat = response.coord.lat;
+    //let lon = response.coord.lon;
     $.ajax({
         url:forecastURL,
         method:"GET"
     }).then(function(response){
+        console.log(response);
         for(i=0; i<5;i++){
             //taking the unix timestamp and converting to a string
             //this will calculate the index of the forecast entry for a specific day and will derive the desired index based on the loop iteration i
@@ -108,7 +113,7 @@ function forecast (cityName){
             //the URL of the icon image is constructed by combining the code that fetches it from the response with the url
            const iconURL = "https://openweathermap.org/img/wn/" + iconCode + "10d@2x.png";
            const celcius = response.list[((i+1)*8)-1].main.temp;
-           
+
         }
     })
 }
