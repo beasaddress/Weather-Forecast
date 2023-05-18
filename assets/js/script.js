@@ -96,6 +96,15 @@ function forecast (cityid){
         url:forecastURL,
         method:"GET"
     }).then(function(response){
-
+        for(i=0; i<5;i++){
+            //taking the unix timestamp and converting to a string
+            //this will calculate the index of the forecast entry for a specific day and will derive the desired index based on the loop iteration i
+            //this assumes each each day has 8 forecast entries, i looked it up and OpenWeather has a granularity of 3 hour intervals meaning there are 8 entries for each day
+           const date = new Date((response.list[((i+1)*8)-1].dt)*1000).toString(); 
+           //this will hopefully grab the icon from the weather array of the forecast entry.
+           const iconCode = response.list[((i+1)*8)-1].weather[0].icon;
+            //the URL of the icon image is constructed by combining the code that fetches it from the response with the url
+           const iconURL = "https://openweathermap.org/img/wn/" + iconCode + "10d@2x.png";
+        }
     })
 }
