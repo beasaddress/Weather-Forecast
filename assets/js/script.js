@@ -24,6 +24,8 @@ function find(c){
 }
 //api key
 let APIKey = "d906d1b93882fa918015d052d274c520";
+const latitude = 37.7749;
+const longitude = -122.4194;
 //this function is going to display the five day forecast after getting the city name from the user
 //input and getting the data from the API
 function displayWeather(event){
@@ -36,7 +38,7 @@ function displayWeather(event){
 }
 function currentWeather(cityName){
     //was using the wrong URL before, changed it  seeing a lot of differing resources on how to properly format this url so im going to try this for now...
-    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}" + cityName + "&appid=" + APIKey;
+    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&APPID=" + APIKey;
     //making the call to jquery
     $.ajax({
         url:apiUrl,
@@ -90,7 +92,7 @@ function currentWeather(cityName){
     });
 }
 //this function will be retrieving and displaying forecast info for the specified city
-function forecast (cityid){
+function forecast (cityName){
     const forecastURL = "api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}";
     $.ajax({
         url:forecastURL,
@@ -105,6 +107,11 @@ function forecast (cityid){
            const iconCode = response.list[((i+1)*8)-1].weather[0].icon;
             //the URL of the icon image is constructed by combining the code that fetches it from the response with the url
            const iconURL = "https://openweathermap.org/img/wn/" + iconCode + "10d@2x.png";
+           const celcius = response.list[((i+1)*8)-1].main.temp;
+           
         }
     })
 }
+
+//adding click handlers to see if application will work in browser
+$("#searchButton").on("click",displayWeather);
