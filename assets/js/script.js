@@ -52,7 +52,7 @@ function currentWeather(cityName){
         //using the date format from mozilla docs
         const date = new Date(8.64e15).toString();  
         //parsing for date, icon, and city
-        $(currentCity).html(response.name + "("+date+")" + "<img src="+iconUrl+">");
+        $(currentCity).html(response.name + " " +date + "<img src="+iconUrl+">");
 
         //assuming i'll need to convert to farenheit since OpenWeatherMap has everything in celciuis on their site..
         const fahrenheit = (response.main.temp - 273.15) * 1.80 + 32;
@@ -116,14 +116,15 @@ function forecast (lon, lat){
            const fahrenheit = (((celcius-273.5)*1.80)+32).toFixed(2);
            const humidity = response.list[((i+1)*8)-1].main.humidity;
            //come back to convert this to MPH
-           const windSpeed = response.list[((i+1)*8)-1].main.wind;
+           const windSpeed = response.list[((i+1)*8)-1].wind.speed;
+           const windMPH = (windSpeed*2.237).toFixed(1);
 
            //placing them inside elements
            $("#forecastDate"+i).html(date);
            $("#forecastIcon"+i).html("img src="+iconURL+">");
            $("#tempForecast"+i).html(fahrenheit+"&#8457");
            $("#humidityForecast"+i).html(humidity+"%");
-           $("#windForecast"+i).html(windSpeed+"MPH");
+           $("#windForecast"+i).html(windMPH+"MPH");
 
         }
     });
