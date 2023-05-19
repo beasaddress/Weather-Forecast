@@ -144,7 +144,7 @@ function addToList(c){
     const listItem = $("<li>" + c.toUpperCase() + "</li>");
     //using data-value attribute to store the listItem as its uppcerase form inside the listGroup element
     $(listItem).attr("data-value", c.toUpperCase());
-    $(".searchHistoryBoxes").append(listItem);
+    $(".listGroup").append(listItem);
     //listItem.classList.add('.btn btn-primary');
     console.log(listItem);
     //making sure citynames arent added to the list twice
