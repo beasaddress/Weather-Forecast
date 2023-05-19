@@ -145,12 +145,14 @@ function addToList(c){
     //using data-value attribute to store the listItem as its uppcerase form inside the listGroup element
     $(listItem).attr("data-value", c.toUpperCase());
     $(".searchHistoryBoxes").append(listItem);
+    //listItem.classList.add('.btn btn-primary');
     console.log(listItem);
     //making sure citynames arent added to the list twice
     if(searchedCities.includes(c)){
         console.log("already included");
         return;
     }
+    
     
 }
 
