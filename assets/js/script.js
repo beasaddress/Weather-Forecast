@@ -1,5 +1,6 @@
 //declaring all the necessary variables
 //cityName will hold the user input
+
 let cityName ="";
 //using the jQuery selector to reference id's from the html
 let searchedCity = $("#searchCity");
@@ -50,8 +51,8 @@ function currentWeather(cityName){
         console.log(response);
         const weatherIcon = response.weather[0].icon;
         const iconUrl = "https://openweathermap.org/img/wn/" + weatherIcon + "10d@2x.png";
-        //using the date format from mozilla docs
-        const date = new Date(8.64e15).toString();  
+        //got the date to show up without the time by using this format
+        const date=new Date(response.dt*1000).toDateString();  
         //parsing for date, icon, and city
         $(currentCity).html(response.name + " " +date + "<img src="+iconUrl+">");
 
@@ -113,7 +114,7 @@ function forecast (lon, lat){
             //taking the unix timestamp and converting to a string
             //this will calculate the index of the forecast entry for a specific day and will derive the desired index based on the loop iteration i
             //this assumes each each day has 8 forecast entries, i looked it up and OpenWeather has a granularity of 3 hour intervals meaning there are 8 entries for each day
-           const date = new Date((response.list[((i+1)*8)-1].dt)*1000).toString(); 
+           const date = new Date((response.list[((i+1)*8)-1].dt)*1000).toDateString(); 
            //this will hopefully grab the icon from the weather array of the forecast entry.
            const iconCode = response.list[((i+1)*8)-1].weather[0].icon;
             //the URL of the icon image is constructed by combining the code that fetches it from the response with the url
@@ -144,6 +145,7 @@ function addToList(c){
     $(listItem).attr("data-value", c.toUpperCase());
     $(".searchHistoryBoxes").append(listItem);
     console.log(listItem);
+    //making sure citynames arent added to the list twice
     if(searchedCities.includes(c)){
         console.log("already included");
         return;
@@ -151,5 +153,11 @@ function addToList(c){
     
 }
 
+//a function that will allow the search history boxes to be clicked, and their data will be fetched and displayed again
+function searchHistoryFetch (){
+    
+}
+
 //adding click handlers to see if application will work in browser
 $("#searchButton").on("click",displayWeather);
+
