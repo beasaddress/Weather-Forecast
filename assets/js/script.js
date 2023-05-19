@@ -20,6 +20,7 @@ function find(c){
         if(c.toUpperCase()===searchedCities[i]){
             return -1;
         }
+        
     }
     return 1;
 }
@@ -50,7 +51,7 @@ function currentWeather(cityName){
         //now to parse the response so that we only city name, date, and the corresponding icon
         console.log(response);
         const weatherIcon = response.weather[0].icon;
-        const iconUrl = "https://openweathermap.org/img/wn/" + weatherIcon + "10d@2x.png";
+        const iconUrl = "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
         //got the date to show up without the time by using this format
         const date=new Date(response.dt*1000).toDateString();  
         //parsing for date, icon, and city
@@ -74,22 +75,22 @@ function currentWeather(cityName){
         
         if(response.cod===200){//checking to see if the API request was successful ,it status code is 200, code block will execute
             //assigning the searched city to "cityname" in the browers local sotrage
-            searchedCities=JSON.parse(localStorage.getItem("cityname"));
+            searchedCities=JSON.parse(localStorage.getItem('cityName'));
             console.log(searchedCities);
             if(searchedCities === null){
                 //checking to see if searchedCities array is null(doesnt have that specific cityname in it) if it is, the cityname will be pushed into the local storage/added to the list in addToList function
                 searchedCities=[];
                 searchedCities.push(cityName.toUpperCase());
-                localStorage.setItem("cityName",JSON.stringify(searchedCities));
+                localStorage.setItem('cityName',JSON.stringify(searchedCities));
                 addToList(cityName);
             }
            else {
             //else statement so that if the cityName is already in the array, it wont be added again
-                //const searchedCities = JSON.parse(localStorage.getItem("cityname"));
+                const searchedCities = JSON.parse(localStorage.getItem('cityName'));
                 if(find(cityName)>0){
-                   // searchedCities=[];
-                    searchedCities.push(cityName.toUpperCase());
-                    localStorage.setItem("cityname",JSON.stringify(searchedCities));
+                    //searchedCities=[];
+                   searchedCities.push(cityName.toUpperCase());
+                   localStorage.setItem('cityName',JSON.stringify(searchedCities));
                     addToList(cityName);  
                                
          
@@ -118,7 +119,7 @@ function forecast (lon, lat){
            //this will hopefully grab the icon from the weather array of the forecast entry.
            const iconCode = response.list[((i+1)*8)-1].weather[0].icon;
             //the URL of the icon image is constructed by combining the code that fetches it from the response with the url
-           const iconURL = "https://openweathermap.org/img/wn/" + iconCode + "10d@2x.png";
+           const iconURL = "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";
            const celcius = response.list[((i+1)*8)-1].main.temp;
            const fahrenheit = (((celcius-273.5)*1.80)+32).toFixed(2);
            const humidity = response.list[((i+1)*8)-1].main.humidity;
@@ -127,7 +128,7 @@ function forecast (lon, lat){
 
            //placing them inside elements
            $("#forecastDate"+i).html(date);
-           $("#forecastIcon"+i).html("img src="+iconURL+">");
+           $("#forecastIcon"+i).html("<img src="+iconURL+">");
            $("#tempForecast"+i).html(fahrenheit+"&#8457");
            $("#humidityForecast"+i).html(humidity+"%");
            $("#windForecast"+i).html(windMPH+"MPH");
@@ -155,7 +156,7 @@ function addToList(c){
 
 //a function that will allow the search history boxes to be clicked, and their data will be fetched and displayed again
 function searchHistoryFetch (){
-    const listItems = document.querySelectorAll(".searchHistoryBoxes li");
+    const listItems = document.querySelectorAll(".listGroup li");
     listItems.forEach(function (item) {
         item.addEventListener("click", function () {
             const clickedItem = this.textContent.trim();
@@ -164,6 +165,7 @@ function searchHistoryFetch (){
             if(searchedCities.includes(clickedItem)){
                 currentWeather(clickedItem);
             }
+            return;
         });
     });
     
