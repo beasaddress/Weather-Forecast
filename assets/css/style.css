@@ -27,3 +27,6 @@ body{
     display: flex;
     flex-wrap: flex;
 }
+footer {
+    color: #f19d37;
+}
