@@ -155,9 +155,21 @@ function addToList(c){
 
 //a function that will allow the search history boxes to be clicked, and their data will be fetched and displayed again
 function searchHistoryFetch (){
+    const listItems = document.querySelectorAll(".searchHistoryBoxes li");
+    listItems.forEach(function (item) {
+        item.addEventListener("click", function () {
+            const clickedItem = this.textContent.trim();
+            const storedValue = localStorage.getItem(clickedItem);
+
+            if(searchedCities.includes(clickedItem)){
+                currentWeather(clickedItem);
+            }
+        });
+    });
     
 }
 
 //adding click handlers to see if application will work in browser
 $("#searchButton").on("click",displayWeather);
+$(document).on("click", searchHistoryFetch);
 
